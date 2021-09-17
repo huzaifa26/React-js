@@ -84,7 +84,7 @@ const LocationModal= props => {
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell>Address</TableCell>
+              <TableCell>Access Code</TableCell>
               <TableCell>Is story building</TableCell>
               <TableCell>Number of stories</TableCell>
               {/* <TableCell>Longitude</TableCell> */}

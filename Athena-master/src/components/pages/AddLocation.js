@@ -114,9 +114,9 @@ const AddLocation = () => {
                     floorplan: url,
                     number_of_stories: null,
                     access_code: {
-                      fire_alarm: null,
-                      gate: null,
-                      security_alarm: null
+                      fire_alarm: fireAlarm,
+                      gate: gate,
+                      security_alarm: securityAlarm
                   }
                   });
                 }
@@ -145,45 +145,6 @@ const AddLocation = () => {
         label="Number_of_floors"
         name="noOfFloors"
         onChange={(e) => setNoOfFloor(e.target.value)}
-      >
-      </TextField>
-    </Grid>
-    <Grid item xs={8}>
-      <TextField
-        margin="dense"
-        variant="outlined"
-        required
-        fullWidth
-        id="fire_alarm"
-        label="Fire Alarm"
-        name="fireAlarm"
-        onChange={(e) => setFireAlarm(e.target.value)}
-      >
-      </TextField>
-    </Grid>
-    <Grid item xs={8}>
-      <TextField
-        margin="dense"
-        variant="outlined"
-        required
-        fullWidth
-        id="gate"
-        label="Gate"
-        name="Gate"
-        onChange={(e) => setGate(e.target.value)}
-      >
-      </TextField>
-    </Grid>
-    <Grid item xs={8}>
-      <TextField
-        margin="dense"
-        variant="outlined"
-        required
-        fullWidth
-        id="security_alarm"
-        label="Security Alarm"
-        name="securityAlarm"
-        onChange={(e) => setSecurityAlarm(e.target.value)}
       >
       </TextField>
     </Grid>
@@ -275,7 +236,45 @@ const AddLocation = () => {
             />
           </Grid>
           {typeOfBuilding}
-          
+          <Grid item xs={8}>
+            <TextField
+              margin="dense"
+              variant="outlined"
+              required
+              fullWidth
+              id="fire_alarm"
+              label="Fire Alarm"
+              name="fireAlarm"
+              onChange={(e) => setFireAlarm(e.target.value)}
+            >
+            </TextField>
+          </Grid>
+          <Grid item xs={8}>
+            <TextField
+              margin="dense"
+              variant="outlined"
+              required
+              fullWidth
+              id="gate"
+              label="Gate"
+              name="Gate"
+              onChange={(e) => setGate(e.target.value)}
+            >
+            </TextField>
+          </Grid>
+          <Grid item xs={8}>
+            <TextField
+              margin="dense"
+              variant="outlined"
+              required
+              fullWidth
+              id="security_alarm"
+              label="Security Alarm"
+              name="securityAlarm"
+              onChange={(e) => setSecurityAlarm(e.target.value)}
+            >
+            </TextField>
+          </Grid>
         </Grid>
         <Button
           type="submit"

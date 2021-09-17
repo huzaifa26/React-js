@@ -114,18 +114,6 @@ function Locations({ locations, apiKey }) {
     // window.location.href = link;
   }
 
-  const locationModalHandler = () => {
-    setShowModal(!showModal);
-  }
-
-  let modal=null;
-
-  if(showModal){
-    modal=  <LocationModal open={open} onClose={handleClose}/>
-  } else if (!showModal){
-    modal=null
-  }
-
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = (e) => {
