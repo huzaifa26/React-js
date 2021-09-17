@@ -71,7 +71,7 @@ const Settings = ({ apiKey, currentUser }) => {
 
   return (
     <>
-      <Typography variant="h4">Settings</Typography>
+      {/* <Typography variant="h4">Settings</Typography> */}
       <Card
         style={{
           padding: "20px",

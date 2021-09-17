@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
@@ -17,9 +18,13 @@ import { useHistory } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import { Button } from "@material-ui/core";
 
+import logo from "./Logo Image/Logo.png"
+
+import AddLocationIcon from '@material-ui/icons/AddLocation';
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import SettingsIcon from "@material-ui/icons/Settings";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
+import PersonIcon from '@material-ui/icons/Person';
 import GroupIcon from "@material-ui/icons/Group";
 import RoomIcon from "@material-ui/icons/Room";
 import ListAltIcon from "@material-ui/icons/ListAlt";
@@ -119,16 +124,28 @@ function AdminLayout(props) {
       icon: <SupervisorAccountIcon />,
     },
     {
-      text: "Users",
-      route: "/admin/users",
-      onClick: () => history.push("/admin/users"),
+      text: "Members",
+      route: "/admin/members",
+      onClick: () => history.push("/admin/members"),
+      icon: <PersonIcon />,
+    },
+    {
+      text: "Teams",
+      route: "/admin/teams",
+      onClick: () => history.push("/admin/teams"),
       icon: <GroupIcon />,
     },
     {
-      text: "Locations",
+      text: "Manage Locations",
       route: "/admin/locations",
       onClick: () => history.push("/admin/locations"),
       icon: <RoomIcon />,
+    },
+    {
+      text: "Add Locations",
+      route: "/admin/addlocations",
+      onClick: () => history.push("/admin/addlocations"),
+      icon: <AddLocationIcon />,
     },
     {
       text: "Logs",
@@ -156,15 +173,51 @@ function AdminLayout(props) {
     },
   ];
 
+  const [titleName,setTitleName]=useState("Dash Board")
+
+  const listOnClick = () => {
+    if(props.history.location.pathname === "/dashboard"){
+      setTitleName("Dash Board");
+    }
+
+    if(props.history.location.pathname === "/admin/manageadmins"){
+      setTitleName("Admins");
+    }
+
+    if(props.history.location.pathname === "/admin/members"){
+      setTitleName("Members");
+    }
+
+    if(props.history.location.pathname === "/admin/locations"){
+      setTitleName("Manage Locations");
+    }
+
+    if(props.history.location.pathname === "/admin/log"){
+      setTitleName("Logs");
+    }
+
+    if(props.history.location.pathname === "/admin/alerts"){
+      setTitleName("Alerts");
+    }
+
+    if(props.history.location.pathname === "/admin/pushmessage"){
+      setTitleName("Push Message");
+    }
+
+    if(props.history.location.pathname === "/admin/settings"){
+      setTitleName("Settings");
+    }
+  }
+
   const drawer = (
     <div> 
       <div className={classes.toolbar}>
           <Typography variant="h6" className={classes.typo} noWrap>
-            Athena
+            <img style={{height:"70px", width:"70px"}} src={logo} alt={"logo"}/>
           </Typography>  
       </div>
       <Divider />
-      <List>
+      <List onClick={listOnClick}>
         {itemsList.map((item, index) => {
           const { text, icon, onClick, route } = item;
           return (
@@ -214,9 +267,11 @@ function AdminLayout(props) {
           >
             <MenuIcon></MenuIcon>
           </IconButton>
-          {/* <Typography variant="h6" noWrap>
-            Athena
-          </Typography> */}
+
+          
+          <Typography variant="h6" noWrap>
+            {titleName}
+          </Typography>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">

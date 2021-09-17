@@ -2,33 +2,64 @@ import React, { useState, useEffect } from "react";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import AutoComplete from "./components/Map/AutoComplete";
+// import AutoComplete from "./components/Map/AutoComplete";
 
 import Signin from "./components/auth/Signin";
 import Dashboard from "./components/pages/Dashboard"
 import Admins from "./components/pages/Admins";
+import Teams from "./components/pages/Teams";
 import Layout from "./components/layout/Layout";
 import AdminLayout from "./components/layout/AdminLayout";
-import Users from "./components/pages/Users";
+import Members from "./components/pages/Users";
 import Locations from "./components/pages/Locations";
 import Tasks from "./components/pages/Tasks";
 import { db } from "./components/firebase/firebase";
 import Alerts from "./components/pages/Alerts";
 import PushMessage from "./components/pages/PushMessage";
-import AddLocation from "./components/Modals/Location/AddLocation";
+import AddLocation from "./components/pages/AddLocation";
 import Settings from "./components/pages/Settings";
 
 function App() {
   const [users, setUsers] = useState([]);
+  const [approvedUsers, setApprovedUsers]=useState([]);
+  const [unapprovedUsers, setUnapprovedUsers]=useState([]);
   const [locations, setLocations] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [alerts, setAlerts] = useState([]);
   const [apiKey, setapiKey] = useState([]);
   const [currentUser, setcurrentUser] = useState();
 
+
+  useEffect(()=>{
+    async function fetchData() {
+      db.collection("Members")
+        .where('is_approved', '==', true)
+        .onSnapshot((snapshot) => {
+          setApprovedUsers(
+            snapshot.docs.map((doc) => {
+              return { ...doc.data(), id: doc.id };
+            })
+          );
+        });
+
+        db.collection("Members")
+        .where('is_approved', '==', false)
+        .onSnapshot((snapshot) => {
+          setUnapprovedUsers(
+            snapshot.docs.map((doc) => {
+              return { ...doc.data(), id: doc.id };
+            })
+          );
+        });
+
+    }
+
+    fetchData();
+  },[])
+
   useEffect(() => {
     async function fetchData() {
-      db.collection("Users")
+      db.collection("Members")
         .orderBy("created_on", "desc")
         .onSnapshot((snapshot) => {
           setUsers(
@@ -80,14 +111,17 @@ function App() {
     }
     fetchData();
   }, []);
-  console.log(apiKey[0]);
+
+  // console.log(users) 
+
+  // console.log(apiKey[0]);
   return (
     <Router>
       <Switch>
       <Route
           exact
           path="/dashboard"
-          render={() => <AdminLayout body={<Dashboard />} />}
+          render={() => <AdminLayout body={<Dashboard approvedUsers={approvedUsers} unapprovedUsers={unapprovedUsers} members={users} tasks={tasks} locations={locations} />} />}
         />
         <Route
           exact
@@ -96,8 +130,13 @@ function App() {
         />
         <Route
           exact
-          path="/admin/users"
-          render={() => <AdminLayout body={<Users users={users} />} />}
+          path="/admin/members"
+          render={() => <AdminLayout body={<Members users={users}/>} />}
+        />
+        <Route
+          exact
+          path="/admin/teams"
+          render={() => <AdminLayout body={<Teams users={users} />} />}
         />
         <Route
           exact
@@ -108,6 +147,18 @@ function App() {
             />
           )}
         />
+
+        <Route
+          exact
+          path="/admin/addlocations"
+          render={() => (
+            <AdminLayout
+              body={<AddLocation locations={locations} apiKey={apiKey} />}
+            />
+          )}
+        />
+
+        {/* /admin/addlocations */}
         <Route
           exact
           path="/admin/log"
@@ -139,7 +190,7 @@ function App() {
         <Route
           exact
           path="/users"
-          render={() => <Layout body={<Users users={users} />} />}
+          render={() => <Layout body={<Members users={users} />} />}
         />
         <Route
           exact

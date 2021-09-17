@@ -3,16 +3,16 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Alert from "@material-ui/lab/Alert";
+// import Alert from "@material-ui/lab/Alert";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import PhotoCamera from "@material-ui/icons/PhotoCamera";
+// import Button from "@material-ui/core/Button";
+// import IconButton from "@material-ui/core/IconButton";
+// import PhotoCamera from "@material-ui/icons/PhotoCamera";
 import { Card, CardMedia } from "@material-ui/core";
 
-import { db, storage } from "../../firebase/firebase";
-import firebase from "firebase";
+// import { db, storage } from "../../firebase/firebase";
+// import firebase from "firebase";
 
 const useStyles = makeStyles((theme) => ({
   paper: {

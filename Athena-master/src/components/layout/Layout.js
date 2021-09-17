@@ -17,7 +17,7 @@ import { useHistory } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import { Button } from "@material-ui/core";
 
-import DashboardIcon from "@material-ui/icons/Dashboard";
+// import DashboardIcon from "@material-ui/icons/Dashboard";
 import SettingsIcon from "@material-ui/icons/Settings";
 import GroupIcon from "@material-ui/icons/Group";
 import RoomIcon from "@material-ui/icons/Room";
@@ -148,7 +148,7 @@ function Layout(props) {
               button
               key={text}
               className={
-                props.history.location.pathname == route
+                props.history.location.pathname === route
                   ? classes.active
                   : classes.noActive
               }

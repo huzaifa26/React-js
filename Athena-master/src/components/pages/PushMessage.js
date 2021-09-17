@@ -62,9 +62,9 @@ const PushMessage = ({ users }) => {
 
   return (
     <>
-      <Typography variant="h4" gutterBottom>
+      {/* <Typography variant="h4" gutterBottom>
         Push Message
-      </Typography>
+      </Typography> */}
       <Card
         style={{
           padding: "20px",

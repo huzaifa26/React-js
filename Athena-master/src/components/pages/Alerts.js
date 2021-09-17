@@ -6,9 +6,9 @@ import { db } from "../firebase/firebase";
 const Alerts = ({ alerts }) => {
   return (
     <>
-      <Typography variant="h4" gutterBottom>
+      {/* <Typography variant="h4" gutterBottom>
         Alerts
-      </Typography>
+      </Typography> */}
       {alerts.map((alert) => (
         <Alert
           action={

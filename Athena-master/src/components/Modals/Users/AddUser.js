@@ -66,17 +66,17 @@ const AddUser = ({ open, handleClose, error, setError }) => {
           .then(async (url) => {
             try {
               const checkUser = await db
-                .collection("Users")
+                .collection("Members")
                 .where("username", "==", userName)
                 .get();
 
               if (checkUser.empty) {
                 e.target.reset();
-                const res = await db.collection("Users").add({
+                const res = await db.collection("Members").add({
                   created_on: firebase.firestore.FieldValue.serverTimestamp(),
                   email_address: email,
                   password: password,
-                  is_approved: true,
+                  is_approved: false,
                   is_online: false,
                   phone_number: phoneNumber,
                   username: userName,

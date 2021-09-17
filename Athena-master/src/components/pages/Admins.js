@@ -143,7 +143,7 @@ function Admins() {
     <>
       <AdminModal open={open} handleClose={handleClose} />
 
-      <Typography variant="h4">Admins</Typography>
+      {/* <Typography variant="h4">Admins</Typography> */}
 
       <Toolbar
         style={{
@@ -158,7 +158,7 @@ function Admins() {
         >
           <TextField
             variant="outlined"
-            label="Search Users"
+            label="Search Admin"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -185,7 +185,7 @@ function Admins() {
               <TableCell>User Name</TableCell>
               <TableCell>Email Address</TableCell>
               <TableCell>Type</TableCell>
-              <TableCell>Password</TableCell>
+              {/* <TableCell>Password</TableCell> */}
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
@@ -195,7 +195,7 @@ function Admins() {
                 <TableCell>{item.username}</TableCell>
                 <TableCell>{item.email_address}</TableCell>
                 <TableCell>{item.type}</TableCell>
-                <TableCell>{item.password}</TableCell>
+                {/* <TableCell>{item.password}</TableCell> */}
                 <TableCell>
                   <IconButton
                     color="primary"

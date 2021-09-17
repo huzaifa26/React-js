@@ -144,7 +144,7 @@ function Users({ users }) {
         setError={setError}
       />
 
-      <Typography variant="h4">Team Members</Typography>
+      {/* <Typography variant="h4">Team Members</Typography> */}
 
       <Toolbar
         style={{
@@ -243,7 +243,7 @@ function Users({ users }) {
                       onClick={async (e) => {
                         e.preventDefault();
                         const user = await db
-                          .collection("Users")
+                          .collection("Members")
                           .doc(item.id)
                           .set(
                             {
@@ -262,7 +262,7 @@ function Users({ users }) {
                     onClick={async (e) => {
                       e.preventDefault();
                       const user = await db
-                        .collection("Users")
+                        .collection("Members")
                         .doc(item.id)
                         .delete();
                     }}

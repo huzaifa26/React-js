@@ -22,13 +22,15 @@ import AddLocationIcon from "@material-ui/icons/AddLocation";
 import EditLocationIcon from "@material-ui/icons/EditLocation";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import GetAppIcon from '@material-ui/icons/GetApp';
 import CheckIcon from "@material-ui/icons/Check";
 import $ from "jquery";
 import { db } from "../firebase/firebase";
 
-import AddLocation from "../Modals/Location/AddLocation";
+import LocationModal from "../Modals/Location/LocationModal";
 import EditUser from "../Modals/Users/EditUser";
 import ViewUser from "../Modals/Users/ViewUser";
+import { Link } from "react-router-dom";
 
 const Width = $(window).width() - 300;
 
@@ -64,13 +66,12 @@ const useStyles = makeStyles((theme) => ({
 function Locations({ locations, apiKey }) {
   const classes = useStyles();
 
-  const [currentUsername, setcurrentUsername] = useState();
-  const [currentemail, setcurrentemail] = useState();
-  const [currentpassword, setcurrentpassword] = useState();
-  const [currentID, setcurrentID] = useState();
-  const [currentphone, setcurrentphone] = useState();
-  const [currentImage, setcurrentImage] = useState();
-  const [error, setError] = useState();
+  const [accessCode, setAccessCode] = useState({});
+  const [isStoryBuilding, setIsStoryBuilding] = useState(false);
+  const [noOfStories, setNoOfStories] = useState();
+
+  const [showModal, setShowModal] = useState(false);
+
 
   const pages = [10, 25, 50];
   const [page, setPage] = useState(0);
@@ -80,33 +81,6 @@ function Locations({ locations, apiKey }) {
       return items;
     },
   });
-  const [open, setOpen] = useState(false);
-  const [open2, setOpen2] = useState(false);
-  const [open3, setOpen3] = useState(false);
-  //const [opensnack, setOpensnack] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClickOpen2 = () => {
-    setOpen2(true);
-  };
-  const handleClickOpen3 = () => {
-    setOpen3(true);
-  };
-  //   const handleSnackbar = () => {
-  //     setOpensnack(true);
-  //   };
-  const handleClose = () => {
-    setOpen(false);
-    setError(undefined);
-  };
-  const handleClose2 = () => {
-    setOpen2(false);
-  };
-  const handleClose3 = () => {
-    setOpen3(false);
-  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -134,9 +108,41 @@ function Locations({ locations, apiKey }) {
       .fn(locations)
       .slice(page * rowsPerPage, (page + 1) * rowsPerPage);
   };
+
+  const downloadFile = (link) => {
+    window.open(link);
+    // window.location.href = link;
+  }
+
+  const locationModalHandler = () => {
+    setShowModal(!showModal);
+  }
+
+  let modal=null;
+
+  if(showModal){
+    modal=  <LocationModal open={open} onClose={handleClose}/>
+  } else if (!showModal){
+    modal=null
+  }
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = (e) => {
+    console.log();
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    console.log("hello world")
+    setOpen(false);
+  };
+
   return (
     <>
-      <Typography variant="h4">Locations</Typography>
+      {/* {modal} */}
+
+      <LocationModal accessCode={accessCode} isStoryBuilding={isStoryBuilding} noOfStories={noOfStories} open={open} onClose={handleClose}/>
 
       <Toolbar
         style={{
@@ -184,7 +190,12 @@ function Locations({ locations, apiKey }) {
           </TableHead>
           <TableBody>
             {recordsAfterpaging().map((item) => (
-              <TableRow key={item.id}>
+              <TableRow onClick={()=>{
+                setAccessCode(item.access_code);
+                setIsStoryBuilding(item.is_story_building);
+                setNoOfStories(item.number_of_stories);
+                handleClickOpen();
+              }} key={item.id}>
                 <TableCell>{item.address}</TableCell>
                 <TableCell>{item.is_story_building}</TableCell>
                 <TableCell>{item.latitude}</TableCell>
@@ -203,6 +214,18 @@ function Locations({ locations, apiKey }) {
                     >
                       <EditLocationIcon />
                     </IconButton> */}
+
+                  <IconButton
+                    // color="secondary"
+                    value={item.floorplan}
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      console.log(item.floorplan)
+                      downloadFile(item.floorplan);
+                    }}
+                  >
+                    <GetAppIcon />
+                  </IconButton>
 
                   <IconButton
                     color="secondary"
@@ -233,10 +256,10 @@ function Locations({ locations, apiKey }) {
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
 
-      <Typography variant="h4" style={{ marginTop: "20px" }}>
+      {/* <Typography variant="h4" style={{ marginTop: "20px" }}>
         Add Location
       </Typography>
-      <AddLocation open={open} handleClose={handleClose} apiKey={apiKey} />
+      <AddLocation open={open} handleClose={handleClose} apiKey={apiKey} /> */}
     </>
   );
 }
