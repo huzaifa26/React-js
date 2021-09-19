@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -27,7 +27,8 @@ import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import PersonIcon from '@material-ui/icons/Person';
 import GroupIcon from "@material-ui/icons/Group";
 import RoomIcon from "@material-ui/icons/Room";
-import ListAltIcon from "@material-ui/icons/ListAlt";
+import ListIcon from '@material-ui/icons/List';
+import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import SendIcon from "@material-ui/icons/Send";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -110,9 +111,13 @@ function AdminLayout(props) {
   };
 
   const history = useHistory();
+  useEffect(()=>{
+    listOnClick();
+  },[])
+
   const itemsList = [
     {
-      text: "Dash Board",
+      text: "Dashboard",
       route: "/dashboard",
       onClick: () => history.push("/dashboard"),
       icon: <DashboardIcon />,
@@ -148,10 +153,16 @@ function AdminLayout(props) {
       icon: <AddLocationIcon />,
     },
     {
-      text: "Logs",
-      route: "/admin/log",
-      onClick: () => history.push("/admin/log"),
-      icon: <ListAltIcon />,
+      text: "Manage Tasks",
+      route: "/admin/manage-tasks",
+      onClick: () => history.push("/admin/manage-tasks"),
+      icon: <ListIcon />,
+    },
+    {
+      text: "Add Tasks",
+      route: "/admin/add-tasks",
+      onClick: () => history.push("/admin/add-tasks"),
+      icon: <PlaylistAddIcon />,
     },
     {
       text: "Alerts",
@@ -171,13 +182,21 @@ function AdminLayout(props) {
       onClick: () => history.push("/admin/settings"),
       icon: <SettingsIcon />,
     },
+
+    // {
+    //   text: "Logs",
+    //   route: "/logs",
+    //   onClick: () => history.push("/logs"),
+    //   icon: <SettingsIcon />,
+    // },
   ];
 
   const [titleName,setTitleName]=useState("Dash Board")
 
+
   const listOnClick = () => {
     if(props.history.location.pathname === "/dashboard"){
-      setTitleName("Dash Board");
+      setTitleName("Dashboard");
     }
 
     if(props.history.location.pathname === "/admin/manageadmins"){
@@ -193,7 +212,7 @@ function AdminLayout(props) {
     }
 
     if(props.history.location.pathname === "/admin/log"){
-      setTitleName("Logs");
+      setTitleName("Manage Tasks");
     }
 
     if(props.history.location.pathname === "/admin/alerts"){
@@ -207,6 +226,23 @@ function AdminLayout(props) {
     if(props.history.location.pathname === "/admin/settings"){
       setTitleName("Settings");
     }
+
+    if(props.history.location.pathname === "/admin/teams"){
+      setTitleName("Teams");
+    }
+
+    if(props.history.location.pathname === "/admin/addlocations"){
+      setTitleName("Add Locations");
+    }
+
+    if(props.history.location.pathname === "/admin/add-tasks"){
+      setTitleName("Add Tasks");
+    }
+
+    if(props.history.location.pathname === "/admin/manage-tasks"){
+      setTitleName("Manage Tasks");
+    }
+
   }
 
   const drawer = (

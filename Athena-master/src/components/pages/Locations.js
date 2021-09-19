@@ -117,12 +117,10 @@ function Locations({ locations, apiKey }) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = (e) => {
-    console.log();
     setOpen(true);
   };
 
   const handleClose = () => {
-    console.log("hello world")
     setOpen(false);
   };
 
@@ -130,7 +128,7 @@ function Locations({ locations, apiKey }) {
     <>
       {/* {modal} */}
 
-      <LocationModal accessCode={accessCode} isStoryBuilding={isStoryBuilding} noOfStories={noOfStories} open={open} onClose={handleClose}/>
+      <LocationModal open={open} handleClose={handleClose} accessCode={accessCode} isStoryBuilding={isStoryBuilding} noOfStories={noOfStories}/>
 
       <Toolbar
         style={{
@@ -208,7 +206,6 @@ function Locations({ locations, apiKey }) {
                     value={item.floorplan}
                     onClick={async (e) => {
                       e.preventDefault();
-                      console.log(item.floorplan)
                       downloadFile(item.floorplan);
                     }}
                   >

@@ -14,6 +14,7 @@ import {
   Button,
   IconButton,
 } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import TableBody from "@material-ui/core/TableBody";
 import SearchIcon from "@material-ui/icons/Search";
@@ -25,7 +26,7 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import $ from "jquery";
 import { db } from "../firebase/firebase";
 
-import AddTask from "../Modals/Tasks/AddTask";
+import AddTask from "./AddTask";
 import EditTask from "../Modals/Tasks/EditTask";
 
 const Width = $(window).width() - 300;
@@ -61,6 +62,8 @@ const useStyles = makeStyles((theme) => ({
 
 function Tasks({ tasks, users, locations }) {
   const classes = useStyles();
+  const history = useHistory();
+
 
   const [currentTitle, setcurrentTitle] = useState();
   const [currentID, setcurrentID] = useState();
@@ -122,15 +125,6 @@ function Tasks({ tasks, users, locations }) {
   console.log();
   return (
     <>
-      <AddTask
-        open={open}
-        handleClose={handleClose}
-        users={users}
-        locations={locations}
-      />
-
-      <Typography variant="h4">Task Logs</Typography>
-
       <Toolbar
         style={{
           display: "flex",
@@ -171,17 +165,17 @@ function Tasks({ tasks, users, locations }) {
               <TableCell>Task</TableCell>
               <TableCell>Address</TableCell>
               <TableCell>Risk Level</TableCell>
-              <TableCell>Status</TableCell>
+              {/* <TableCell>Status</TableCell> */}
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody onClick={() => history.push("/logs")}>
             {recordsAfterpaging().map((item) => (
               <TableRow key={item.id}>
                 <TableCell>{item.title}</TableCell>
                 <TableCell>{item.address}</TableCell>
                 <TableCell>{item.risk_level}</TableCell>
-                <TableCell>{item.status}</TableCell>
+                {/* <TableCell>{item.status}</TableCell> */}
                 <TableCell>
                   <IconButton
                     color="primary"

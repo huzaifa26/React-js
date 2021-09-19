@@ -18,9 +18,13 @@ import Alerts from "./components/pages/Alerts";
 import PushMessage from "./components/pages/PushMessage";
 import AddLocation from "./components/pages/AddLocation";
 import Settings from "./components/pages/Settings";
+import AddTask from "./components/pages/AddTask";
+import Logs from "./components/pages/Logs";
 
 function App() {
-  const [users, setUsers] = useState([]);
+  const [members, setMembers] = useState([]);
+  const [teams, setTeams] = useState([]);
+
   const [approvedUsers, setApprovedUsers]=useState([]);
   const [unapprovedUsers, setUnapprovedUsers]=useState([]);
   const [locations, setLocations] = useState([]);
@@ -62,7 +66,7 @@ function App() {
       db.collection("Members")
         .orderBy("created_on", "desc")
         .onSnapshot((snapshot) => {
-          setUsers(
+          setMembers(
             snapshot.docs.map((doc) => {
               return { ...doc.data(), id: doc.id };
             })
@@ -81,6 +85,7 @@ function App() {
     }
     fetchData();
   }, []);
+  // console.log(tasks)
   useEffect(() => {
     async function fetchData() {
       db.collection("Tasks")
@@ -88,10 +93,19 @@ function App() {
         .onSnapshot((snapshot) => {
           setTasks(
             snapshot.docs.map((doc) => {
+              // console.log(doc.id)
               return { ...doc.data(), id: doc.id };
             })
           );
         });
+          db.collection("Teams")
+            .onSnapshot((snapshot) => {
+              setTeams(
+                snapshot.docs.map((doc) => {
+                  return { ...doc.data(), id: doc.id };
+                })
+              );
+            });
       db.collection("Alerts")
         .orderBy("created_on", "desc")
         .onSnapshot((snapshot) => {
@@ -121,7 +135,7 @@ function App() {
       <Route
           exact
           path="/dashboard"
-          render={() => <AdminLayout body={<Dashboard approvedUsers={approvedUsers} unapprovedUsers={unapprovedUsers} members={users} tasks={tasks} locations={locations} />} />}
+          render={() => <AdminLayout body={<Dashboard approvedUsers={approvedUsers} unapprovedUsers={unapprovedUsers} members={members} tasks={tasks} locations={locations} />} />}
         />
         <Route
           exact
@@ -131,12 +145,12 @@ function App() {
         <Route
           exact
           path="/admin/members"
-          render={() => <AdminLayout body={<Members users={users}/>} />}
+          render={() => <AdminLayout body={<Members users={members}/>} />}
         />
         <Route
           exact
           path="/admin/teams"
-          render={() => <AdminLayout body={<Teams users={users} />} />}
+          render={() => <AdminLayout body={<Teams users={members} />} />}
         />
         <Route
           exact
@@ -161,10 +175,19 @@ function App() {
         {/* /admin/addlocations */}
         <Route
           exact
-          path="/admin/log"
+          path="/admin/manage-tasks"
           render={() => (
             <AdminLayout
-              body={<Tasks tasks={tasks} users={users} locations={locations} />}
+              body={<Tasks tasks={tasks} users={members} locations={locations} />}
+            />
+          )}
+        />
+        <Route
+          exact
+          path="/admin/add-tasks"
+          render={() => (
+            <AdminLayout
+              body={<AddTask locations={locations} teams={teams} approvedUsers={approvedUsers}/>}
             />
           )}
         />
@@ -176,7 +199,7 @@ function App() {
         <Route
           exact
           path="/admin/pushmessage"
-          render={() => <AdminLayout body={<PushMessage users={users} />} />}
+          render={() => <AdminLayout body={<PushMessage users={members} />} />}
         />
         <Route
           exact
@@ -190,7 +213,7 @@ function App() {
         <Route
           exact
           path="/users"
-          render={() => <Layout body={<Members users={users} />} />}
+          render={() => <Layout body={<Members users={members} />} />}
         />
         <Route
           exact
@@ -206,7 +229,7 @@ function App() {
           path="/log"
           render={() => (
             <Layout
-              body={<Tasks tasks={tasks} users={users} locations={locations} />}
+              body={<Tasks tasks={tasks} users={members} locations={locations} />}
             />
           )}
         />
@@ -218,7 +241,7 @@ function App() {
         <Route
           exact
           path="/pushmessage"
-          render={() => <Layout body={<PushMessage users={users} />} />}
+          render={() => <Layout body={<PushMessage users={members} />} />}
         />
         <Route
           exact
@@ -233,6 +256,12 @@ function App() {
           exact
           path="/"
           render={() => <Signin setcurrentUser={setcurrentUser} />}
+        />
+
+        <Route
+          exact
+          path="/logs"
+          render={() => <AdminLayout body={<Logs />} />}
         />
       </Switch>
     </Router>

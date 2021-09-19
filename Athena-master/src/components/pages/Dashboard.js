@@ -2,7 +2,6 @@ import React from "react";
 import DashboardCard from "../layout/DashboardCard";
 
 const Dashboard=(props)=>{
-    console.log(props.unapprovedUsers.length);
     return(
         <div style={{display:"flex", flexWrap: "wrap"}}>
             <DashboardCard

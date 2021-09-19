@@ -69,7 +69,6 @@ const useStyles = makeStyles((theme) => ({
 
 const LocationModal= props => {
   const classes = useStyles();
-  console.log(props.accessCode)
 
     return(
         <Dialog
@@ -118,14 +117,14 @@ const LocationModal= props => {
         </Table>
       </TableContainer>
         </DialogContent>
-        <DialogActions>
+        {/* <DialogActions>
           <Button onClick={props.handleClose} color="primary">
             Disagree
           </Button>
           <Button onClick={props.handleClose} color="primary" autoFocus>
             Agree
           </Button>
-        </DialogActions>
+        </DialogActions> */}
       </Dialog>
 
     )
